@@ -3,36 +3,11 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../Components/Header";
-import { useNavigate } from "react-router-dom";
-// import React, { createContext, useContext } from "react";
-import React, { createContext, useContext, useState } from "react";
-import axios from "axios";
-
-export const FormDataContext = createContext();
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState();
 
-  // const handleFormSubmit = (values) => {
-  //   console.log(values);
-
-  //   navigate(`/supportPages/${values.firstName}`, {
-  //     state: { userRequirement: values.userRequirement },
-  //   });    
-
-  // };
-  const handleFormSubmit = async (values) => {
-    try {
-      const response = await axios.post("http://localhost:3001/api/formdata", values);
-      console.log(response.data);
-      setFormData(response.data);
-      navigate(`/supportPages/${response.data.firstName}`, {
-        state: { userRequirement: response.data.userRequirement },
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
+  const handleFormSubmit = (values) => {
+    console.log(values);
   };
 
   return (
@@ -142,13 +117,11 @@ const Form = () => {
                 rows={10}
               />
             </Box>
-            <FormDataContext.Provider value={{ formData, setFormData }}>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="secondary" variant="contained">
                 Create New User
               </Button>
             </Box>
-            </FormDataContext.Provider>
           </form>
         )}
       </Formik>
@@ -168,7 +141,7 @@ const checkoutSchema = yup.object().shape({
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
   address1: yup.string().required("required"),
-  userRequirement: yup.string().required("required"),
+  address2: yup.string().required("required"),
 });
 const initialValues = {
   firstName: "",
@@ -176,7 +149,7 @@ const initialValues = {
   email: "",
   contact: "",
   address1: "",
-  userRequirement: "",
+  address2: "",
 };
 
 export default Form;

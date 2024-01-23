@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { Container, Paper, Typography, TextField, Button, Box } from '@mui/material';
-import { useTheme } from '@mui/system';
+import React, { useState } from "react";
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+} from "@mui/material";
+import { useTheme } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  // const [isSignUp, setIsSignUp] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const navigate = useNavigate();
 
   const theme = useTheme();
 
@@ -16,18 +25,18 @@ const LoginForm = () => {
 
     // Email validation
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Invalid email address');
+      setEmailError("Invalid email address");
       isValid = false;
     } else {
-      setEmailError('');
+      setEmailError("");
     }
 
     // Password validation
     if (!password || password.length < 6) {
-      setPasswordError('Password must be at least 6 characters');
+      setPasswordError("Password must be at least 6 characters");
       isValid = false;
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
 
     return isValid;
@@ -36,13 +45,31 @@ const LoginForm = () => {
   const handleSignIn = () => {
     if (validateForm()) {
       // Perform sign-in logic here
-      console.log('Sign In:', email, password);
+      console.log("Sign In:", email, password);
+      navigate("/admin")
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper elevation={3} sx={{ padding: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          padding: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
@@ -70,7 +97,13 @@ const LoginForm = () => {
             helperText={passwordError}
           />
         </Box>
-        <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleSignIn}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+          onClick={handleSignIn}
+        >
           Sign In
         </Button>
         <Box sx={{ mt: 2 }}>
@@ -78,9 +111,7 @@ const LoginForm = () => {
             {`Enter Email & Password to login`}
           </Typography>
         </Box>
-        <Box sx={{ mt: 2 }}>
-          {/* Additional content, if needed */}
-        </Box>
+        <Box sx={{ mt: 2 }}>{/* Additional content, if needed */}</Box>
       </Paper>
     </Container>
   );
