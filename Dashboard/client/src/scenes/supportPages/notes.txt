@@ -1,0 +1,15 @@
+make todo applicaion (react)--> backend(node.js & express.js) -->  db(mongodb)
+
+3 inputs
+todo 
+date
+description
+
+2 pages
+button submit --> create todo
+
+todo list (edit, delete) with buttons
+
+**node.js
+express library (routes, controller) endpoints(localhost)
+crud
