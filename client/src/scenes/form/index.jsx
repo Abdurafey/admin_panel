@@ -1,11 +1,42 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, FormControl, InputLabel, Select,MenuItem } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../Components/Header";
+import { useEffect, useState } from "react";
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://api.countrystatecity.in/v1/countries", {
+          method: 'GET',
+          headers: {
+            'X-CSCAPI-KEY': 'eldpalJ5ZXJpY3VZNmZ0TmRhREIxbXA1bDhhSG5nVUM3SDFMU3FzbA==', // Replace 'API_KEY' with your actual API key
+          },
+          redirect: 'follow',
+        });
 
+        if (response.ok) {
+          const data = await response.json();
+          setCountries(data);
+        } else {
+          console.error('Failed to fetch countries');
+        }
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleChanges = (event) => {
+    setSelectedCountry(event.target.value);
+    console.log(setSelectedCountry);
+  };
   const handleFormSubmit = (values) => {
     console.log(values);
   };
@@ -88,7 +119,7 @@ const Form = () => {
                 helperText={touched.contact && errors.contact}
                 sx={{ gridColumn: "span 4" }}
               />
-              <TextField
+              {/* <TextField
                 fullWidth
                 variant="filled"
                 type="text"
@@ -100,7 +131,27 @@ const Form = () => {
                 error={!!touched.address1 && !!errors.address1}
                 helperText={touched.address1 && errors.address1}
                 sx={{ gridColumn: "span 4" }}
-              />
+              /> */}
+              <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 4" }}>
+                <InputLabel id="city-label">City</InputLabel>
+                <Select
+                  labelId="city-label"
+                  id="city"
+                  name="city"
+                  value={selectedCountry}
+                  onChange={handleChanges}
+                  onBlur={handleBlur}
+                  // error={!!touched.city && !!errors.city}
+                >
+                  {countries.map((country) => (
+                    <MenuItem key={country.iso2} value={country.name}>
+                      {country.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              {/* // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */}
               <TextField
                 fullWidth
                 variant="filled"
