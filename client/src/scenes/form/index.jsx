@@ -3,11 +3,16 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../Components/Header";
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
+
+
+
 const Form = () => {
+  const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [countries, setCountries] = useState([]);  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,12 +38,48 @@ const Form = () => {
     fetchData();
   }, []);
 
-  const handleChanges = (event) => {
-    setSelectedCountry(event.target.value);
-    console.log(setSelectedCountry);
+  const validateForm = (values) => {
+    let isValid = true;
+  
+    // First Name validation
+    if (!values.firstName) {
+      isValid = false;
+    }
+  
+    // Last Name validation
+    if (!values.lastName) {
+      isValid = false;
+    }
+  
+    // Email validation
+    if (!values.email || !/\S+@\S+\.\S+/.test(values.email)) {
+      isValid = false;
+    }
+  
+    // Contact validation (assuming it should be a number)
+    if (!values.contact || !/^\d+$/.test(values.contact)) {
+      isValid = false;
+    }
+  
+    // Country validation
+    if (!values.country) {
+      isValid = false;
+    }
+  
+    // User Requirement validation
+    if (!values.userRequirement) {
+      isValid = false;
+    }
+  
+    return isValid;
   };
+
+
   const handleFormSubmit = (values) => {
-    console.log(values);
+    if (validateForm(values)) {
+      console.log(values);
+      navigate("/supportPages");
+    }
   };
 
   return (
@@ -118,28 +159,15 @@ const Form = () => {
                 error={!!touched.contact && !!errors.contact}
                 helperText={touched.contact && errors.contact}
                 sx={{ gridColumn: "span 4" }}
-              />
-              {/* <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Address 1"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address1}
-                name="address1"
-                error={!!touched.address1 && !!errors.address1}
-                helperText={touched.address1 && errors.address1}
-                sx={{ gridColumn: "span 4" }}
-              /> */}
+              />             
               <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 4" }}>
                 <InputLabel id="city-label">City</InputLabel>
                 <Select
-                  labelId="city-label"
-                  id="city"
-                  name="city"
-                  value={selectedCountry}
-                  onChange={handleChanges}
+                  labelId="country-label"
+                  id="country"
+                  name="country"
+                  value={values.country}
+                  onChange={handleChange}
                   onBlur={handleBlur}
                   // error={!!touched.city && !!errors.city}
                 >
@@ -179,28 +207,29 @@ const Form = () => {
     </Box>
   );
 };
-
 const phoneRegExp =
-  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+/^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 const checkoutSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
+  .string()
+  .matches(phoneRegExp, "Phone number is not valid")
+  .required("required"),
+  country: yup.string().required("required"),
+  userRequirement: yup.string().required("required"),
 });
+
 const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
   contact: "",
-  address1: "",
-  address2: "",
+  country: "",
+  userRequirement: "",
 };
+
 
 export default Form;

@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-// import SupportPages from "./scenes/supportPages";
+import SupportPages from "./scenes/supportPages";
 import LoginForm from "./scenes/login";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
@@ -19,9 +19,19 @@ import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar";
 
 function App() {
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
   const isRootPath = window.location.pathname === '/';
+
+  const handleLogin = () => {
+    // Simulating a login, setLoggedIn(true) would be called after a successful login
+    setLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+  };
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -44,6 +54,7 @@ function App() {
               <Route path="/faq" element={<FAQ />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
+              <Route path="/supportPages" element={< SupportPages/>} />
             </Routes>
           </main>
         </div>

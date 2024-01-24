@@ -7,7 +7,6 @@ import {
   Button,
   Box,
 } from "@mui/material";
-import { useTheme } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
@@ -18,7 +17,6 @@ const LoginForm = () => {
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
 
-  const theme = useTheme();
 
   const validateForm = () => {
     let isValid = true;
