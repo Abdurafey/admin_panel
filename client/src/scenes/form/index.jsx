@@ -161,7 +161,7 @@ const Form = () => {
                 sx={{ gridColumn: "span 4" }}
               />             
               <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 4" }}>
-                <InputLabel id="city-label">City</InputLabel>
+                <InputLabel id="city-label">Country</InputLabel>
                 <Select
                   labelId="country-label"
                   id="country"

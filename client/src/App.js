@@ -17,6 +17,9 @@ import Pie from "./scenes/pie";
 import FAQ from "./scenes/faq";
 import Geography from "./scenes/geography";
 import Calendar from "./scenes/calendar";
+import ModalPopup from "./Components/ModalPopup";
+// xxxxxxxxxxxxxxxxxxxxxx
+
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -55,6 +58,7 @@ function App() {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/geography" element={<Geography />} />
               <Route path="/supportPages" element={< SupportPages/>} />
+              <Route path="/modalPopup" element={< ModalPopup/>} />
             </Routes>
           </main>
         </div>
